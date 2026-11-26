@@ -1,0 +1,27 @@
+{
+  "name": "kill-ai-slop",
+  "version": "0.1.0",
+  "description": "Skill audit dan implementasi UI berbasis bukti dengan harness verifikasi.",
+  "author": {
+    "name": "dikaofcx"
+  },
+  "homepage": "https://github.com/dikaofcx/kill-ai-slop",
+  "license": "MIT",
+  "keywords": [
+    "ai-slop",
+    "design-lint",
+    "agent-skills",
+    "ui",
+    "copywriting",
+    "accessibility"
+  ],
+  "skills": "./skills/",
+  "systemPromptPath": "./rules/killslop.md",
+  "interface": {
+    "displayName": "Kill AI Slop",
+    "shortDescription": "Skill UI berbasis bukti.",
+    "longDescription": "Workflow inti dengan skill khusus untuk arah visual, copy, mobile, aksesibilitas, dan implementasi.",
+    "developerName": "dikaofcx",
+    "websiteURL": "https://github.com/dikaofcx/kill-ai-slop"
+  }
+}

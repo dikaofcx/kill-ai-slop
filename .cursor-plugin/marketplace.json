@@ -1,0 +1,16 @@
+{
+  "name": "kill-ai-slop",
+  "owner": {
+    "name": "dikaofcx"
+  },
+  "metadata": {
+    "description": "Skill UI berbasis bukti untuk Cursor."
+  },
+  "plugins": [
+    {
+      "name": "kill-ai-slop",
+      "source": ".",
+      "description": "Workflow UI inti dengan skill khusus untuk visual, copy, mobile, aksesibilitas, dan kode."
+    }
+  ]
+}

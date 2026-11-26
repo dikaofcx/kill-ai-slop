@@ -1,0 +1,15 @@
+{
+  "name": "kill-ai-slop",
+  "description": "Skill UI berbasis bukti untuk audit, implementasi, dan verifikasi.",
+  "owner": {
+    "name": "dikaofcx"
+  },
+  "plugins": [
+    {
+      "name": "kill-ai-slop",
+      "source": "./",
+      "version": "0.1.0",
+      "description": "Workflow UI inti dengan skill khusus untuk visual, copy, mobile, aksesibilitas, dan kode."
+    }
+  ]
+}

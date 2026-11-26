@@ -1,0 +1,92 @@
+/* Starting tokens for kill-ai-slop-ui. Replace the faces and colors; keep the structure. */
+:root {
+  /* Type: one display face, one body face. Swap the first name for your pick. */
+  --font-display: 'Cabinet Grotesk', 'Satoshi', system-ui, sans-serif;
+  --font-body: 'General Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --leading-body: 1.55;
+  --measure: 65ch;
+
+  /* Neutral scale, tinted toward the accent. */
+  --n-50: #f7f6f3;
+  --n-100: #ecebe6;
+  --n-300: #c9c7bf;
+  --n-500: #86847c;
+  --n-700: #4a4944;
+  --n-900: #0b0b0f;
+
+  /* One accent. Check contrast with: killslop contrast <fg> <bg> */
+  --accent: #ff4d00;
+  --accent-ink: #0b0b0f;
+
+  --bg: var(--n-50);
+  --fg: var(--n-900);
+  --line: var(--n-300);
+
+  /* Spacing scale (px): 4 8 12 16 24 32 48 64 96 128 */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-6: 24px;
+  --s-8: 32px;
+  --s-12: 48px;
+  --s-16: 64px;
+  --s-24: 96px;
+  --s-32: 128px;
+
+  /* One radius decision: sharp. For pill, set 999px. */
+  --radius: 2px;
+
+  /* One easing, one duration band (150-400ms). */
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+  --dur: 200ms;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0b0b0f;
+    --fg: #f7f6f3;
+    --line: #2a2a31;
+  }
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  line-height: var(--leading-body);
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  line-height: 1.1;
+}
+
+p {
+  max-width: var(--measure);
+}
+
+.card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: var(--s-6);
+}
+
+.button {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-radius: var(--radius);
+  padding: var(--s-3) var(--s-6);
+  transition: transform var(--dur) var(--ease);
+}
+
+.button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(11, 11, 15, 0.25);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button {
+    transition: none;
+  }
+}

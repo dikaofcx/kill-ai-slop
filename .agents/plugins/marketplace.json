@@ -1,0 +1,19 @@
+{
+  "name": "kill-ai-slop",
+  "interface": {
+    "displayName": "Kill AI Slop"
+  },
+  "plugins": [
+    {
+      "name": "kill-ai-slop",
+      "source": {
+        "source": "local",
+        "path": "./"
+      },
+      "policy": {
+        "installation": "AVAILABLE"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

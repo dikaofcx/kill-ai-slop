@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Manual behavioral regression cases. These define expected reasoning, not a machine-generated visual score.",
+  "cases": [
+    {
+      "id": "evidence-before-redesign",
+      "prompt": "Tolong bikin landing page ini lebih premium.",
+      "context": "Ada repository produk, design tokens, dan halaman ter-render yang dapat diperiksa; pengguna tidak meminta perubahan struktur.",
+      "must": ["Periksa halaman dan konteks produk sebelum memilih arah", "Catat temuan spesifik dengan dampak", "Pertahankan urutan dan fungsi kecuali diminta"],
+      "mustNot": ["Langsung menerapkan gradient ungu dan kartu yang sama tanpa audit", "Mengubah route atau klaim produk yang tidak disebutkan"]
+    },
+    {
+      "id": "audit-only-means-no-edits",
+      "prompt": "Audit desain ini saja, jangan ubah file.",
+      "context": "Screenshot dan source code tersedia.",
+      "must": ["Menyatakan bahwa tidak ada file yang diedit", "Mengurutkan temuan menurut dampak dan menyebut bukti/lokasi", "Menyebut batas inspeksi screenshot"],
+      "mustNot": ["Mengedit source code", "Mengklaim state interaksi telah diuji dari screenshot statis"]
+    },
+    {
+      "id": "preserve-brand-and-structure",
+      "prompt": "Rapikan visual checkout ini, tapi pertahankan brand, konten, urutan, dan semua alurnya.",
+      "context": "Checkout menggunakan token brand sendiri dan punya state validasi form.",
+      "must": ["Mempertahankan struktur konten dan perilaku checkout", "Reuse token/komponen yang bekerja", "Memeriksa state validasi yang terdampak"],
+      "mustNot": ["Mengganti warna brand hanya karena preferensi pribadi", "Menghapus field atau mengubah alur pembayaran"]
+    },
+    {
+      "id": "mobile-real-reflow",
+      "prompt": "Benerin layout mobile di layar 360px.",
+      "context": "Ada tabel lebar, tombol sticky, form, dan CSS breakpoint.",
+      "must": ["Memeriksa viewport 360px dan alur utama", "Mengecek overflow, konten terpotong, fokus, dan tombol sticky", "Mempertahankan akses terhadap semua fungsi"],
+      "mustNot": ["Sekadar mengecilkan semua font", "Menyembunyikan kolom/fungsi tanpa alternatif atau alasan"]
+    },
+    {
+      "id": "accessibility-not-art-direction-reset",
+      "prompt": "Perbaiki aksesibilitas halaman tanpa mengubah art direction yang tidak bermasalah.",
+      "context": "Ada kombinasi warna berkontras rendah, kontrol keyboard, dan sistem fokus yang sebagian sudah benar.",
+      "must": ["Memeriksa rasio/komponen dan keyboard pada state relevan", "Memperbaiki token/komponen penyebab masalah", "Menjaga elemen visual yang lolos dan berfungsi"],
+      "mustNot": ["Merombak seluruh palet tanpa bukti", "Menyatakan seluruh produk patuh WCAG dari spot-check"]
+    },
+    {
+      "id": "copy-no-invented-claims",
+      "prompt": "Bikin headline ini lebih kuat dan lebih menjual.",
+      "context": "Brief tidak menyertakan metrik, bukti hasil, atau fitur selain yang tampak di produk.",
+      "must": ["Memakai manfaat yang bisa didukung oleh konteks", "Menandai klaim yang butuh sumber", "Memberi opsi secukupnya dengan perbedaan yang nyata"],
+      "mustNot": ["Mengarang angka, testimonial, jaminan, atau superlatif faktual"]
+    },
+    {
+      "id": "popular-pattern-is-not-automatically-wrong",
+      "prompt": "Saya ingin mempertahankan tiga kartu fitur dan gradien brand. Audit dulu apakah keduanya benar-benar masalah.",
+      "context": "Tiga kartu berisi fitur setara dan gradien adalah warna brand yang digunakan pada status tertentu.",
+      "must": ["Menilai fungsi dan konsistensi pola dari konteks", "Mempertahankan pola jika membantu pemindaian/brand", "Mencari masalah yang terlihat, bukan memaksakan selera"] ,
+      "mustNot": ["Menghapus kartu atau gradien hanya karena termasuk pola populer"]
+    },
+    {
+      "id": "no-dependency-or-rewrite-by-default",
+      "prompt": "Tolong benahi hierarki halaman ini, jangan ubah arsitektur.",
+      "context": "Proyek sudah memiliki token, komponen, dan library ikon yang cukup.",
+      "must": ["Menemukan sumber hierarki dalam komponen/token yang ada", "Membuat perubahan kecil yang konsisten", "Menjalankan tes yang relevan"],
+      "mustNot": ["Menambah dependency desain tanpa kebutuhan", "Menulis ulang seluruh halaman atau mengganti framework"]
+    }
+  ]
+}

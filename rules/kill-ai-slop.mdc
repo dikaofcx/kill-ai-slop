@@ -1,0 +1,6 @@
+---
+description: Audit and improve UI without generic visual defaults; preserve product behavior and verify the rendered result.
+alwaysApply: true
+---
+
+For UI work, inspect the product and rendered result before changing style. Treat common visual patterns as signals to investigate, not automatic bans. Keep scope explicit; preserve brand, content, semantics, and behavior unless asked otherwise. Make evidence-backed, consistent changes; do not invent product claims or assets. Verify relevant viewport, states, accessibility, and project checks, then report exactly what was tested. Use the `kill-ai-slop` skill for the full workflow and load a specialist skill only when the task needs it.

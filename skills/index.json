@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "skills": [
+    {
+      "name": "kill-ai-slop",
+      "description": "Audit, restyle, atau bangun antarmuka web dan mobile agar terasa spesifik pada produk, bukan hasil template generik. Gunakan saat mengerjakan UI, landing page, aplikasi, layar mobile, atau saat diminta menghilangkan AI slop pada desain dan implementasi.",
+      "path": "./kill-ai-slop/SKILL.md"
+    },
+    {
+      "name": "kill-ai-slop-a11y",
+      "description": "Audit atau perbaiki aksesibilitas UI dengan pemeriksaan kontras, keyboard, fokus, label, target interaksi, reflow, dan reduced motion—tanpa mengganti art direction yang tidak bermasalah.",
+      "path": "./kill-ai-slop-a11y/SKILL.md"
+    },
+    {
+      "name": "kill-ai-slop-code",
+      "description": "Implementasikan atau rapikan kode UI setelah diagnosis visual yang jelas—gunakan komponen dan token yang ada, hindari dependency atau rewrite tak perlu, dan verifikasi perilaku serta hasilnya.",
+      "path": "./kill-ai-slop-code/SKILL.md"
+    },
+    {
+      "name": "kill-ai-slop-copy",
+      "description": "Audit atau tulis ulang copy UI, landing page, onboarding, notifikasi, dan pesan produk agar jelas, spesifik, sesuai suara brand, serta tidak berisi buzzword atau klaim tanpa bukti.",
+      "path": "./kill-ai-slop-copy/SKILL.md"
+    },
+    {
+      "name": "kill-ai-slop-mobile",
+      "description": "Audit atau perbaiki layout web dan aplikasi pada layar sempit—reflow, navigasi, formulir, target sentuh, konten, dan state—tanpa sekadar mengecilkan tampilan desktop.",
+      "path": "./kill-ai-slop-mobile/SKILL.md"
+    },
+    {
+      "name": "kill-ai-slop-ui",
+      "description": "Audit atau implementasikan arah visual UI web dan aplikasi—hierarki, tipografi, warna, layout, token, ikon, dan motion—tanpa mengganti brand atau menambah dekorasi generik.",
+      "path": "./kill-ai-slop-ui/SKILL.md"
+    }
+  ]
+}

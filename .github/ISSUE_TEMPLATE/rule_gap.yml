@@ -1,0 +1,25 @@
+name: Rule gap or false positive
+description: Slop the linter misses, or something it flags that is fine.
+labels: [rule]
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Kind
+      options: [missed slop, false positive]
+    validations:
+      required: true
+  - type: textarea
+    id: sample
+    attributes:
+      label: Code or copy sample
+      render: html
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why this is (or is not) slop
+      description: A reason a designer would accept, not a taste preference.
+    validations:
+      required: true

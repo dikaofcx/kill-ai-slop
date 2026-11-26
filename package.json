@@ -1,0 +1,56 @@
+{
+  "name": "kill-ai-slop",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Skills anti-slop berbasis bukti, adapter agent, CLI, dan quality harness.",
+  "keywords": [
+    "pi-package"
+  ],
+  "type": "module",
+  "bin": {
+    "kill-ai-slop": "./cli/index.mjs"
+  },
+  "license": "MIT",
+  "author": "dikaofcx",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dikaofcx/kill-ai-slop.git"
+  },
+  "engines": {
+    "node": ">=20.12.0"
+  },
+  "files": [
+    "cli/",
+    "skills/",
+    "rules/",
+    "antislop.md",
+    "README.md",
+    "GUIDE.md"
+  ],
+  "pi": {
+    "skills": [
+      "./skills"
+    ]
+  },
+  "cline": {
+    "plugins": [
+      {
+        "paths": [
+          "./.cline-plugin/plugin.js"
+        ],
+        "capabilities": [
+          "skills"
+        ]
+      }
+    ]
+  },
+  "scripts": {
+    "sync-skills": "node scripts/sync-skills.mjs",
+    "sync-skills:check": "node scripts/sync-skills.mjs --check",
+    "sync-version": "node scripts/sync-version.mjs",
+    "check": "node scripts/check-repo.mjs",
+    "test": "node --test",
+    "test:cli": "npm --prefix cli test",
+    "ci": "npm run sync-skills:check && npm run check && npm test"
+  }
+}

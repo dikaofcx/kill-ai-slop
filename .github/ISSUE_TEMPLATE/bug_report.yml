@@ -1,0 +1,38 @@
+name: Bug report
+description: The linter, CLI, hook, or a manifest does not work.
+labels: [bug]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: killslop version
+      description: Output of `killslop --version`.
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options: [lint rule, CLI, Claude Code hook, init, plugin manifest, skill text]
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Minimal input and command
+      description: The smallest file that shows the problem and the exact command.
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected and actual output
+    validations:
+      required: true
+  - type: input
+    id: env
+    attributes:
+      label: Node version and OS
+    validations:
+      required: true
