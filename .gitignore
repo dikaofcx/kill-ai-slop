@@ -10,3 +10,5 @@ Thumbs.db
 cli/skills/
 cli/rules/
 *.tgz
+test-results/
+playwright-report/

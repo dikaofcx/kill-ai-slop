@@ -61,7 +61,7 @@ The installer checks for conflicts, rejects symlinks in the target path, and wil
 - **Core:** [SKILL.md](SKILL.md), procedures in [agents.md](agents.md), pattern guidance in [skills.md](skills.md), and visual principles in [soul.md](soul.md).
 - **Five specialist skills:** UI, copy, mobile, accessibility, and code implementation under [`skills/`](skills/).
 - **CLI:** linting, a Claude Code hook, agent installation, rule listing, and contrast checking.
-- **Harness:** CLI/rule tests, positive and negative fixtures, repository checks, and 16 manual behavior scenarios with tags and hard negatives.
+- **Harness:** CLI/rule tests, positive and negative fixtures, repository checks, 16 manual behavior scenarios, and browser checks for responsive screenshots and one interaction state.
 - **Adapters:** Agents, Claude Code, Cline, Codex, Cursor, Kimi, Oh My Pi, and Qoder.
 - **References:** [UI sources](skills/kill-ai-slop-ui/references/sources.md), [CSS token template](skills/kill-ai-slop-ui/references/tokens-template.css), logo, and diagrams.
 
@@ -82,7 +82,7 @@ For accessibility, the stable target here is [WCAG 2.2](https://www.w3.org/TR/WC
 - **Task/function cases** check scope, state, keyboard, mobile, and whether changes preserve what must keep working.
 - **Human review** evaluates visual context, perception, and assistive-technology experience that cannot be decided from regexes or an initial screenshot.
 
-`npm run check` validates structure and category coverage in [evals/cases.json](evals/cases.json); it does **not** run a model, axe, or user tests. Read the [evaluation protocol](evals/README.md) before claiming a case passed. Keep conformance/accessibility, task quality, performance, and visual perception separate; do not create one universal number without validated data and weights.
+`npm run check` validates structure and category coverage in [evals/cases.json](evals/cases.json); it does **not** run a model, axe, or user tests. Run the browser suite with `npm run test:browser`; it captures screenshots at 360/768/1440 px, checks horizontal overflow, and tests one menu pattern. Read the [evaluation protocol](evals/README.md) and [browser guide](evals/browser/README.md): screenshots need human review, and results are neither a score nor accessibility certification. Keep conformance/accessibility, task quality, performance, and visual perception separate.
 
 ## Hook and plugins
 

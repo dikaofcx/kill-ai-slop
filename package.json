@@ -51,6 +51,10 @@
     "check": "node scripts/check-repo.mjs",
     "test": "node --test",
     "test:cli": "npm --prefix cli test",
+    "test:browser": "playwright test -c evals/browser/playwright.config.mjs",
     "ci": "npm run sync-skills:check && npm run check && npm test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.65.1"
   }
 }

@@ -29,3 +29,7 @@ Jangan gabungkan semua dimensi menjadi satu “slop score” kecuali ada bobot d
 3. Pastikan `must` menjelaskan perilaku yang dapat diamati dan `mustNot` menangkap kesalahan mahal.
 4. Pertahankan kasus yang sengaja menguji pilihan desain yang sah. Jangan mengubahnya jadi pola terlarang hanya karena linter bisa mendeteksinya.
 5. Setelah perubahan, jalankan `npm run ci`.
+
+## Pemeriksaan browser
+
+Suite Playwright opsional di [browser/README.md](browser/README.md) menangkap screenshot pada lebar 360, 768, dan 1440 CSS px, memeriksa overflow horizontal halaman, dan menguji satu pola menu keyboard/pointer pada fixture. Jalankan `npm run test:browser` setelah memasang browser Chromium. Suite ini tidak membandingkan screenshot terhadap baseline, tidak memindai seluruh aksesibilitas, dan tidak memberi skor kualitas; screenshot tetap perlu ditinjau manusia. Untuk proyek lain, arahkan `EVAL_BASE_URL` ke halaman lokal/staging yang memang dikuasai dan sesuaikan selector serta ekspektasi interaksi. Fixture CI hanya memverifikasi harness, bukan kualitas produk.

@@ -61,7 +61,7 @@ Installer ngecek konflik, nolak symlink di jalur target, dan nggak diam-diam nim
 - **Core:** [SKILL.md](SKILL.md), prosedur di [agents.md](agents.md), panduan pola di [skills.md](skills.md), dan prinsip visual di [soul.md](soul.md).
 - **Lima skill spesialis:** UI, copy, mobile, aksesibilitas, dan implementasi kode di [`skills/`](skills/).
 - **CLI:** lint, hook Claude Code, installer agent, daftar rule, dan pemeriksa kontras.
-- **Harness:** tes rule/CLI, fixture positif-negatif, repo checks, serta 16 skenario evaluasi manual dengan kategori dan hard negative.
+- **Harness:** tes rule/CLI, fixture positif-negatif, repo checks, 16 skenario evaluasi manual, dan suite browser untuk screenshot responsif serta satu state interaksi.
 - **Adapter:** Agents, Claude Code, Cline, Codex, Cursor, Kimi, Oh My Pi, dan Qoder.
 - **Referensi:** [sumber UI](skills/kill-ai-slop-ui/references/sources.md), [template token CSS](skills/kill-ai-slop-ui/references/tokens-template.css), logo, dan diagram.
 
@@ -82,7 +82,7 @@ Untuk aksesibilitas, target stabil yang dipakai adalah [WCAG 2.2](https://www.w3
 - **Kasus fungsi/tugas** memeriksa scope, state, keyboard, mobile, dan apakah perubahan mempertahankan hal yang harus tetap bekerja.
 - **Review manusia** menilai konteks visual, persepsi, dan pengalaman assistive technology yang tidak bisa diputuskan dari regex atau screenshot awal.
 
-`npm run check` memvalidasi struktur dan cakupan kategori di [evals/cases.json](evals/cases.json); ia **tidak** menjalankan model, axe, atau user test. Baca [protokol evaluasi](evals/README.md) sebelum mengklaim kasus lolos. Pisahkan conformance/accessibility, task quality, performa, dan persepsi visual; jangan bikin satu angka universal tanpa data dan bobot yang tervalidasi.
+`npm run check` memvalidasi struktur dan cakupan kategori di [evals/cases.json](evals/cases.json); ia **tidak** menjalankan model, axe, atau user test. Suite browser dapat dijalankan lewat `npm run test:browser`; ia menangkap screenshot pada 360/768/1440 px, memeriksa overflow horizontal, dan menguji satu pola menu. Baca [protokol evaluasi](evals/README.md) dan [panduan browser](evals/browser/README.md): screenshot perlu ditinjau manusia dan hasilnya bukan skor atau sertifikasi aksesibilitas. Pisahkan conformance/accessibility, task quality, performa, dan persepsi visual.
 
 ## Hook dan plugin
 

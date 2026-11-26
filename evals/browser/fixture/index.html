@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Browser evaluation fixture</title>
+    <style>
+      :root { color-scheme: light; font: 16px/1.5 system-ui, sans-serif; color: #13243a; background: #f5f8fc; }
+      * { box-sizing: border-box; }
+      body { margin: 0; }
+      header, main { width: min(100% - 2rem, 68rem); margin-inline: auto; }
+      header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: 1.25rem; }
+      .brand { font-weight: 750; letter-spacing: -.03em; }
+      button { min-height: 2.75rem; padding: .55rem 1rem; border: 0; border-radius: .7rem; color: white; background: #1265d8; font: inherit; font-weight: 650; cursor: pointer; }
+      button:focus-visible, a:focus-visible { outline: 3px solid #f29d38; outline-offset: 3px; }
+      nav[hidden] { display: none; }
+      nav { display: flex; gap: 1rem; padding: .75rem 1rem; border: 1px solid #d9e2ef; border-radius: .8rem; background: white; }
+      nav a { color: #1455a6; }
+      main { padding-block: 3rem 5rem; }
+      .eyebrow { color: #1265d8; font-size: .8rem; font-weight: 750; letter-spacing: .09em; text-transform: uppercase; }
+      h1 { max-width: 13ch; margin: .5rem 0 1rem; font-size: clamp(2.25rem, 7vw, 4.5rem); line-height: 1.02; letter-spacing: -.055em; }
+      .intro { max-width: 42rem; color: #4b5d73; font-size: 1.1rem; }
+      .note { margin-top: 2rem; padding: 1rem 1.2rem; border-left: 4px solid #1265d8; border-radius: .35rem; background: #e9f1fc; }
+      @media (max-width: 480px) { header { align-items: flex-start; } nav { flex-direction: column; } main { padding-top: 2rem; } }
+    </style>
+  </head>
+  <body>
+    <header>
+      <span class="brand">Evaluation fixture</span>
+      <button type="button" data-eval-menu-toggle aria-controls="sample-menu" aria-expanded="false">Menu</button>
+    </header>
+    <nav id="sample-menu" data-eval-menu-panel hidden aria-label="Example menu">
+      <a href="#overview">Overview</a>
+      <a href="#checks">Checks</a>
+    </nav>
+    <main id="overview">
+      <p class="eyebrow">Harness smoke test</p>
+      <h1>Check the behavior. Review the page.</h1>
+      <p class="intro">This deliberately small page verifies that the browser runner can capture responsive screenshots and exercise one menu interaction. It is not a design-quality benchmark.</p>
+      <p class="note" id="checks">A green test only covers the explicit checks in the suite; a person still needs to review visual quality and other interaction states.</p>
+    </main>
+    <script>
+      const toggle = document.querySelector('[data-eval-menu-toggle]');
+      const menu = document.querySelector('[data-eval-menu-panel]');
+      function setOpen(open) {
+        toggle.setAttribute('aria-expanded', String(open));
+        menu.hidden = !open;
+        if (!open) toggle.focus();
+      }
+      toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') setOpen(false);
+      });
+    </script>
+  </body>
+</html>

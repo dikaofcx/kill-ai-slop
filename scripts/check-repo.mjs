@@ -26,7 +26,9 @@ const required = [
   'cli/test/fixtures/clean.html', 'cli/test/fixtures/slop.html',
   'rules/kill-ai-slop.md', 'rules/kill-ai-slop.mdc', 'rules/killslop.md', 'rules/killslop.mdc', 'rules/soul.md',
   'scripts/check-repo.mjs', 'scripts/skill-index.mjs', 'scripts/sync-skills.mjs', 'scripts/sync-version.mjs',
-  'evals/README.md', 'evals/cases.json', 'tests/smoke.test.mjs', 'skills/index.json',
+  'evals/README.md', 'evals/cases.json', 'evals/browser/README.md', 'evals/browser/playwright.config.mjs',
+  'evals/browser/fixture-server.mjs', 'evals/browser/fixture/index.html', 'evals/browser/visual.spec.mjs',
+  'evals/browser/interactions.spec.mjs', 'tests/smoke.test.mjs', 'skills/index.json',
   'skills/kill-ai-slop/SKILL.md', 'skills/kill-ai-slop/references/skills.md',
   'skills/kill-ai-slop/references/soul.md', 'skills/kill-ai-slop/references/agents.md',
   'skills/kill-ai-slop-ui/references/sources.md', 'skills/kill-ai-slop-ui/references/tokens-template.css',
@@ -89,7 +91,7 @@ check('root package, lockfile, and CLI metadata agree', () => {
   if (cliPackage.version !== packageJson.version) throw new Error('versi cli/package.json tidak sama dengan root');
   if (cliPackage.private !== true) throw new Error('cli/package.json harus private: true');
   if (Object.keys(cliPackage.dependencies ?? {}).length) throw new Error('CLI harus tetap tanpa dependency runtime');
-  for (const script of ['check', 'test', 'test:cli', 'sync-skills', 'sync-skills:check', 'sync-version', 'ci']) {
+  for (const script of ['check', 'test', 'test:cli', 'test:browser', 'sync-skills', 'sync-skills:check', 'sync-version', 'ci']) {
     if (!packageJson.scripts?.[script]) throw new Error(`npm script wajib tidak ada: ${script}`);
   }
   for (const script of ['test', 'sync-assets']) if (!cliPackage.scripts?.[script]) throw new Error(`script CLI wajib tidak ada: ${script}`);
@@ -255,7 +257,7 @@ check('local Markdown links resolve and repository has no secret placeholders', 
     }
   }
   const ignore = fs.readFileSync(path.join(root, '.gitignore'), 'utf8');
-  for (const value of ['node_modules/', '.env', 'cli/skills/', 'cli/rules/', '*.tgz']) if (!ignore.includes(value)) throw new Error(`.gitignore tidak mencakup ${value}`);
+  for (const value of ['node_modules/', '.env', 'cli/skills/', 'cli/rules/', '*.tgz', 'test-results/']) if (!ignore.includes(value)) throw new Error(`.gitignore tidak mencakup ${value}`);
 });
 
 check('repository passes its own advisory linter', () => {
