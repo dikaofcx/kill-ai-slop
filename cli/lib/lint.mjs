@@ -202,7 +202,7 @@ export function lintFiles(files, config, cwd) {
     const severity = config.rules['icon-mix'] ?? 'warn';
     findings.push({
       file: second.file, rule: 'icon-mix', severity, line: second.line, col: second.col,
-      message: `Mixed icon sets: ${families.join(', ')}. Pick one set and keep the stroke consistent.`,
+      message: `Mixed icon sets: ${families.join(', ')}. Review consistency, semantics, and accessibility; multiple sets can be intentional when they serve distinct needs.`,
     });
   }
   findings.sort((a, b) => a.file.localeCompare(b.file) || a.line - b.line || a.col - b.col || a.rule.localeCompare(b.rule));

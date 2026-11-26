@@ -1,0 +1,11 @@
+%%{init: {"theme":"base","themeVariables":{"background":"#0B0B0F","primaryColor":"#17171C","primaryTextColor":"#F7F6F3","primaryBorderColor":"#FF5A1F","lineColor":"#FF5A1F","secondaryColor":"#202027","tertiaryColor":"#111116","fontFamily":"ui-monospace, SFMono-Regular, Menlo, monospace"}}}%%
+flowchart TB
+  A["01 / Context<br/>product · task · constraints"] --> B["02 / Evidence<br/>rendered UI · code · states"]
+  B --> C["03 / Small change<br/>keep what already works"]
+  C --> D["04 / Checks<br/>flow · mobile · accessibility"]
+  D --> E["05 / Human review<br/>keep · fix · investigate"]
+  classDef step fill:#17171C,color:#F7F6F3,stroke:#FF5A1F,stroke-width:2px;
+  classDef final fill:#FF5A1F,color:#0B0B0F,stroke:#F7F6F3,stroke-width:2px;
+  class A,B,C,D step;
+  class E final;
+  linkStyle default stroke:#FF5A1F,stroke-width:2px;

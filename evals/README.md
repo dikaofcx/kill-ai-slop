@@ -1,16 +1,31 @@
 # Behavioral regression cases
 
-`cases.json` menyimpan prompt dan perilaku yang diharapkan untuk review manual. `npm run check` hanya memeriksa skema, ID duplikat, dan kelengkapan kasus; ia tidak menjalankan model atau menilai screenshot.
+![Quality harness layers](../assets/harness-layers.png)
 
-## Cara mengevaluasi perubahan skill
+`cases.json` berisi 16 skenario regresi manual. Isinya menguji keputusan berbasis konteks, termasuk hard negative: pola visual yang memang disengaja, scan yang belum lengkap, dan state yang belum diperiksa. Ini bukan skor estetika dan bukan detektor asal-usul AI.
 
-Jalankan setiap prompt pada sesi baru dengan skill yang sama. Bandingkan jawaban dengan konteks yang tercatat, lalu tandai tiap butir `must` dan `mustNot` sebagai pass/fail. Kasus harus tetap lolos tanpa mengandalkan riwayat percakapan yang tidak disertakan.
+`npm run check` memvalidasi struktur, ID, tag, dan cakupan kategori. Ia **tidak** menjalankan model, memeriksa screenshot, menjalankan axe, atau menilai jawaban. Jangan laporkan kasus manual sebagai lulus kalau belum benar-benar dijalankan.
 
-Jika perubahan sengaja mengubah perilaku:
+## Cara menjalankan review
 
-1. Jelaskan kasus mana yang berubah dan mengapa.
-2. Tambahkan kasus untuk regresi nyata, bukan variasi kosmetik dari prompt yang sama.
+1. Pakai prompt dan konteks dari satu kasus pada sesi baru dengan skill/versi yang sedang diuji.
+2. Nilai setiap butir `must` dan `mustNot` berdasarkan perilaku yang terlihat. Simpan kutipan atau bukti, bukan impresi umum.
+3. Catat commit, model/tool dan versi, tanggal, reviewer, viewport, state, serta file/artefak yang diuji.
+4. Jika hasilnya gagal, tambahkan konteks yang relevan. Jangan mengubah rubric cuma supaya implementasi yang sekarang terlihat lolos.
+
+## Pisahkan hasilnya
+
+- **Conformance/accessibility:** catat rule, kriteria WCAG, elemen/state, bukti, dan status `pass`, `fail`, `inapplicable`, atau `needs-human-review`. W3C menjelaskan bahwa conformance testing menggabungkan otomatisasi dan evaluasi manusia; scan bersih bukan sertifikat [kepatuhan WCAG](https://www.w3.org/WAI/WCAG22/Understanding/conformance).
+- **Fungsi/tugas:** catat tugas, penyelesaian, error, dan state yang dicoba. Jangan mengklaim keyboard, dialog, atau screen reader sudah diuji dari screenshot awal.
+- **Persepsi visual:** pakai review buta bila membandingkan variasi, dan pisahkan kualitas pragmatis dari originality/novelty. Studi prototipe 2026 yang relevan hanya melibatkan 92 peserta dan bukan produk live, jadi jangan digeneralisasi ke semua pengguna atau model ([studi SEMISH 2026](https://sol.sbc.org.br/index.php/semish/article/view/43563)).
+- **Performa:** simpan LCP/INP/CLS dan metode lab/field secara terpisah. TBT lab adalah proxy INP, bukan penggantinya; angka satu run bukan klaim pengalaman produksi.
+
+Jangan gabungkan semua dimensi menjadi satu “slop score” kecuali ada bobot dan validasi yang jelas. Untuk aturan otomatis, definisikan applicability dan batasnya secara objektif; panduan [W3C ACT Rules Format 1.1](https://www.w3.org/TR/act-rules-format/) membedakan hasil yang lolos, gagal, atau tidak berlaku dan meminta asumsi/limitasi dicatat. Lihat juga panduan evaluasi berlapis [NIST AI 200-3](https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.200-3.pdf).
+
+## Mengubah kasus
+
+1. Jelaskan kasus mana yang berubah dan kenapa.
+2. Tambahkan kasus untuk regresi nyata atau false positive yang ditemukan, bukan variasi kosmetik dari prompt yang sama.
 3. Pastikan `must` menjelaskan perilaku yang dapat diamati dan `mustNot` menangkap kesalahan mahal.
-4. Jangan mengubah kasus hanya agar implementasi saat ini terlihat lolos.
-
-Hasil manual yang belum benar-benar dijalankan tidak boleh dilaporkan sebagai “lulus”. Tidak ada skor estetika otomatis di harness ini.
+4. Pertahankan kasus yang sengaja menguji pilihan desain yang sah. Jangan mengubahnya jadi pola terlarang hanya karena linter bisa mendeteksinya.
+5. Setelah perubahan, jalankan `npm run ci`.

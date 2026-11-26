@@ -12,14 +12,14 @@ const errors = [];
 const checks = [];
 const check = (name, fn) => checks.push({ name, fn });
 const required = [
-  'SKILL.md', 'skills.md', 'soul.md', 'agents.md', 'AGENTS.md', 'GUIDE.md', 'README.md', 'ROADMAP.md',
+  'SKILL.md', 'skills.md', 'soul.md', 'agents.md', 'AGENTS.md', 'GUIDE.md', 'README.md', 'README.en.md', 'ROADMAP.md',
   'CONTRIBUTING.md', 'CODE_OF_CONDUCT.md', 'SECURITY.md', 'LICENSE', 'antislop.md', 'killslop.md',
   'package.json', 'package-lock.json', 'plugin.json', '.gitignore', '.killslop.json',
   '.github/workflows/ci.yml', '.github/PULL_REQUEST_TEMPLATE.md',
   '.agents/plugins/marketplace.json', '.claude-plugin/plugin.json', '.claude-plugin/marketplace.json',
   '.cline-plugin/plugin.js', '.codex-plugin/plugin.json', '.cursor-plugin/plugin.json', '.cursor-plugin/marketplace.json',
   '.kimi-plugin/plugin.json', '.omp-plugin/marketplace.json', '.qoder-plugin/plugin.json',
-  'assets/logo.png', 'assets/banner.png', 'assets/README.md', 'hooks/hooks.json', 'commands/kill-ai-slop.md',
+  'assets/logo.png', 'assets/banner.png', 'assets/quality-loop.png', 'assets/harness-layers.png', 'assets/README.md', 'hooks/hooks.json', 'commands/kill-ai-slop.md',
   'cli/package.json', 'cli/index.mjs', 'cli/linter.mjs', 'cli/linter-uploaded.mjs',
   'cli/lib/audit-template.mjs', 'cli/lib/color.mjs', 'cli/lib/install.mjs', 'cli/lib/lint.mjs', 'cli/lib/rules.mjs',
   'cli/scripts/sync-assets.mjs', 'cli/test/cli.test.mjs', 'cli/test/lint.test.mjs',
@@ -167,13 +167,19 @@ check('skill metadata, generated index, and evaluation cases are complete', () =
   const actualIndex = readJson('skills/index.json');
   if (!actualIndex || JSON.stringify(actualIndex) !== JSON.stringify(expectedIndex)) throw new Error('skills/index.json belum sinkron; jalankan npm run sync-skills');
   const cases = readJson('evals/cases.json');
-  if (!Array.isArray(cases?.cases) || cases.cases.length < 6) throw new Error('evals/cases.json harus berisi minimal enam kasus');
+  if (cases?.schemaVersion !== 2) throw new Error('evals/cases.json harus memakai schemaVersion 2');
+  if (!Array.isArray(cases?.cases) || cases.cases.length < 16) throw new Error('evals/cases.json harus berisi minimal 16 kasus');
   const ids = new Set();
+  const tags = new Set();
   for (const item of cases.cases) {
-    if (!item.id || !item.prompt || !Array.isArray(item.must) || !item.must.length || !Array.isArray(item.mustNot) || !item.mustNot.length) throw new Error(`kasus eval tidak lengkap: ${item.id ?? '(tanpa id)'}`);
+    if (!item.id || !item.prompt || !Array.isArray(item.tags) || !item.tags.length || item.tags.some((tag) => typeof tag !== 'string' || !tag.trim()) || new Set(item.tags).size !== item.tags.length || !Array.isArray(item.must) || !item.must.length || !Array.isArray(item.mustNot) || !item.mustNot.length) throw new Error(`kasus eval tidak lengkap atau tag tidak valid: ${item.id ?? '(tanpa id)'}`);
     if (ids.has(item.id)) throw new Error(`ID eval duplikat: ${item.id}`);
     ids.add(item.id);
+    item.tags.forEach((tag) => tags.add(tag));
   }
+  const requiredTags = ['accessibility', 'anti-pattern', 'copy', 'design-context', 'evaluation', 'evidence', 'heuristic', 'implementation', 'interaction', 'mobile', 'performance', 'preservation', 'research', 'scope', 'uncertainty'];
+  const missingTags = requiredTags.filter((tag) => !tags.has(tag));
+  if (missingTags.length) throw new Error(`kategori eval wajib belum tercakup: ${missingTags.join(', ')}`);
 });
 
 check('rule defaults are advisory and user config is valid', () => {

@@ -1,0 +1,15 @@
+%%{init: {"theme":"base","themeVariables":{"background":"#0B0B0F","primaryColor":"#17171C","primaryTextColor":"#F7F6F3","primaryBorderColor":"#FF5A1F","lineColor":"#FF5A1F","secondaryColor":"#202027","tertiaryColor":"#111116","fontFamily":"ui-monospace, SFMono-Regular, Menlo, monospace"}}}%%
+flowchart TB
+  H["QUALITY ≠ ONE MAGIC SCORE"]:::root
+  H --> A["01 / Deterministic<br/>lint · repo checks · contrast"]:::layer
+  A --> B["02 / Functional<br/>task flow · interaction state"]:::layer
+  B --> C["03 / Human review<br/>visual context · assistive tech"]:::layer
+  C --> D["Evidence bundle<br/>rule · location · state · repro"]:::evidence
+  D --> E{"What does the evidence say?"}:::question
+  E --> F["Reproducible defect: fix; block only when deterministic<br/>Meaning unclear: human review<br/>Intentional and works: keep, record why"]:::decision
+  classDef root fill:#FF5A1F,color:#0B0B0F,stroke:#F7F6F3,stroke-width:2px;
+  classDef layer fill:#17171C,color:#F7F6F3,stroke:#FF5A1F,stroke-width:2px;
+  classDef evidence fill:#202027,color:#F7F6F3,stroke:#FF5A1F,stroke-width:2px;
+  classDef question fill:#17171C,color:#F7F6F3,stroke:#FF5A1F,stroke-width:2px;
+  classDef decision fill:#FF5A1F,color:#0B0B0F,stroke:#F7F6F3,stroke-width:2px;
+  linkStyle default stroke:#FF5A1F,stroke-width:2px;

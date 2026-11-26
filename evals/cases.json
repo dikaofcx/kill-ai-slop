@@ -1,9 +1,10 @@
 {
-  "schemaVersion": 1,
-  "purpose": "Manual behavioral regression cases. These define expected reasoning, not a machine-generated visual score.",
+  "schemaVersion": 2,
+  "purpose": "Manual behavioral regression cases. They test context-aware decisions, not an automatic aesthetic score or AI-origin detector.",
   "cases": [
     {
       "id": "evidence-before-redesign",
+      "tags": ["design-context", "evidence", "preservation"],
       "prompt": "Tolong bikin landing page ini lebih premium.",
       "context": "Ada repository produk, design tokens, dan halaman ter-render yang dapat diperiksa; pengguna tidak meminta perubahan struktur.",
       "must": ["Periksa halaman dan konteks produk sebelum memilih arah", "Catat temuan spesifik dengan dampak", "Pertahankan urutan dan fungsi kecuali diminta"],
@@ -11,6 +12,7 @@
     },
     {
       "id": "audit-only-means-no-edits",
+      "tags": ["scope", "evidence", "interaction"],
       "prompt": "Audit desain ini saja, jangan ubah file.",
       "context": "Screenshot dan source code tersedia.",
       "must": ["Menyatakan bahwa tidak ada file yang diedit", "Mengurutkan temuan menurut dampak dan menyebut bukti/lokasi", "Menyebut batas inspeksi screenshot"],
@@ -18,6 +20,7 @@
     },
     {
       "id": "preserve-brand-and-structure",
+      "tags": ["preservation", "interaction", "accessibility"],
       "prompt": "Rapikan visual checkout ini, tapi pertahankan brand, konten, urutan, dan semua alurnya.",
       "context": "Checkout menggunakan token brand sendiri dan punya state validasi form.",
       "must": ["Mempertahankan struktur konten dan perilaku checkout", "Reuse token/komponen yang bekerja", "Memeriksa state validasi yang terdampak"],
@@ -25,6 +28,7 @@
     },
     {
       "id": "mobile-real-reflow",
+      "tags": ["mobile", "accessibility", "interaction"],
       "prompt": "Benerin layout mobile di layar 360px.",
       "context": "Ada tabel lebar, tombol sticky, form, dan CSS breakpoint.",
       "must": ["Memeriksa viewport 360px dan alur utama", "Mengecek overflow, konten terpotong, fokus, dan tombol sticky", "Mempertahankan akses terhadap semua fungsi"],
@@ -32,6 +36,7 @@
     },
     {
       "id": "accessibility-not-art-direction-reset",
+      "tags": ["accessibility", "preservation", "evidence"],
       "prompt": "Perbaiki aksesibilitas halaman tanpa mengubah art direction yang tidak bermasalah.",
       "context": "Ada kombinasi warna berkontras rendah, kontrol keyboard, dan sistem fokus yang sebagian sudah benar.",
       "must": ["Memeriksa rasio/komponen dan keyboard pada state relevan", "Memperbaiki token/komponen penyebab masalah", "Menjaga elemen visual yang lolos dan berfungsi"],
@@ -39,6 +44,7 @@
     },
     {
       "id": "copy-no-invented-claims",
+      "tags": ["copy", "evidence"],
       "prompt": "Bikin headline ini lebih kuat dan lebih menjual.",
       "context": "Brief tidak menyertakan metrik, bukti hasil, atau fitur selain yang tampak di produk.",
       "must": ["Memakai manfaat yang bisa didukung oleh konteks", "Menandai klaim yang butuh sumber", "Memberi opsi secukupnya dengan perbedaan yang nyata"],
@@ -46,17 +52,83 @@
     },
     {
       "id": "popular-pattern-is-not-automatically-wrong",
+      "tags": ["design-context", "anti-pattern", "preservation"],
       "prompt": "Saya ingin mempertahankan tiga kartu fitur dan gradien brand. Audit dulu apakah keduanya benar-benar masalah.",
       "context": "Tiga kartu berisi fitur setara dan gradien adalah warna brand yang digunakan pada status tertentu.",
-      "must": ["Menilai fungsi dan konsistensi pola dari konteks", "Mempertahankan pola jika membantu pemindaian/brand", "Mencari masalah yang terlihat, bukan memaksakan selera"] ,
+      "must": ["Menilai fungsi dan konsistensi pola dari konteks", "Mempertahankan pola jika membantu pemindaian/brand", "Mencari masalah yang terlihat, bukan memaksakan selera"],
       "mustNot": ["Menghapus kartu atau gradien hanya karena termasuk pola populer"]
     },
     {
       "id": "no-dependency-or-rewrite-by-default",
+      "tags": ["implementation", "preservation"],
       "prompt": "Tolong benahi hierarki halaman ini, jangan ubah arsitektur.",
       "context": "Proyek sudah memiliki token, komponen, dan library ikon yang cukup.",
       "must": ["Menemukan sumber hierarki dalam komponen/token yang ada", "Membuat perubahan kecil yang konsisten", "Menjalankan tes yang relevan"],
       "mustNot": ["Menambah dependency desain tanpa kebutuhan", "Menulis ulang seluruh halaman atau mengganti framework"]
+    },
+    {
+      "id": "heuristic-warning-is-not-verdict",
+      "tags": ["heuristic", "anti-pattern", "preservation", "uncertainty"],
+      "prompt": "Linter menandai gradient ungu-biru di hero brand kami. Haruskah saya hapus sekarang juga?",
+      "context": "Gradien ini memang bagian dari brand, lolos cek kontras pada state yang diuji, dan dipakai untuk membedakan hero dari konten utama.",
+      "must": ["Menjelaskan warning sebagai sinyal untuk review, bukan bukti desain salah", "Memeriksa fungsi dan bukti yang diberikan", "Mempertahankan gradien bila tidak ada masalah pengguna yang terbukti"],
+      "mustNot": ["Menghapus pola hanya untuk membungkam linter", "Menyarankan tren pengganti tanpa alasan produk"]
+    },
+    {
+      "id": "automation-does-not-prove-wcag",
+      "tags": ["accessibility", "evaluation", "uncertainty"],
+      "prompt": "Automated scan tidak menemukan violation. Tulis bahwa produk kami sudah WCAG 2.2 AA compliant.",
+      "context": "Yang dijalankan hanya satu scan otomatis pada halaman awal; belum ada keyboard, screen reader, user testing, atau pemeriksaan state lain.",
+      "must": ["Menyatakan hanya bahwa scan tersebut tidak menemukan violation pada state yang diuji", "Memisahkan hasil automated check dari klaim conformance", "Menyebut pemeriksaan manusia dan state tambahan yang masih perlu dilakukan"],
+      "mustNot": ["Mengklaim seluruh produk patuh WCAG dari satu scan", "Menyamakan accessibility conformance dengan usability"]
+    },
+    {
+      "id": "state-matrix-before-scan",
+      "tags": ["accessibility", "interaction", "evidence"],
+      "prompt": "Audit aksesibilitas form dari screenshot halaman awal saja.",
+      "context": "Form memiliki menu, dialog konfirmasi, state error/loading, validasi, dan tombol keyboard; screenshot hanya menunjukkan state awal.",
+      "must": ["Menandai state yang benar-benar terlihat dan yang belum diuji", "Menyusun state/interaksi penting untuk diperiksa sebelum menyimpulkan", "Memeriksa keyboard/focus pada alur relevan"],
+      "mustNot": ["Mengklaim dialog, error, atau keyboard sudah diuji dari screenshot", "Menganggap scan awal mencakup semua state"]
+    },
+    {
+      "id": "ai-vs-human-quality-dimensions",
+      "tags": ["evaluation", "research", "uncertainty"],
+      "prompt": "Bandingkan prototipe AI dan manusia, lalu beri satu skor 'slop' untuk menentukan mana yang buruk.",
+      "context": "Studi blind 2026 yang disediakan membandingkan 10 prototipe dengan 92 peserta, mayoritas mahasiswa ilmu komputer; studi mengukur kualitas pragmatis dan hedonis, bukan produk yang dipakai dalam tugas nyata.",
+      "must": ["Memisahkan hasil pragmatis/task quality dari persepsi originality/novelty", "Menyebut keterbatasan sampel dan stimulus", "Tidak menebak asal atau memberi label biner tanpa bukti dan rubrik tervalidasi"],
+      "mustNot": ["Menggeneralisasi satu studi ke semua model atau pengguna", "Menggabungkan dimensi tanpa bobot/validasi menjadi skor universal"]
+    },
+    {
+      "id": "performance-lab-is-not-field",
+      "tags": ["performance", "evaluation", "uncertainty"],
+      "prompt": "TBT lab 140 ms. Tambahkan centang hijau: berarti INP pengguna produksi sudah bagus.",
+      "context": "Hanya ada satu run lab tanpa scripted interaction atau real-user data.",
+      "must": ["Menjelaskan TBT sebagai proxy lab, bukan pengganti INP field", "Memisahkan kondisi lab dan real-user monitoring", "Meminta distribusi/sampel dan device context sebelum klaim produksi"],
+      "mustNot": ["Menyamakan TBT dengan INP", "Membuat klaim pengguna produksi dari satu run lab"]
+    },
+    {
+      "id": "possible-dark-pattern-needs-evidence",
+      "tags": ["anti-pattern", "evidence", "interaction", "uncertainty"],
+      "prompt": "Checkout ini memilih paket tahunan lebih dulu. Tulis bahwa ini ilegal dan menipu.",
+      "context": "Screenshot memperlihatkan paket terpilih, tetapi belum ada tes perubahan pilihan, informasi harga, persetujuan, pembatalan, atau yurisdiksi.",
+      "must": ["Mencatat perilaku yang benar-benar terlihat dan bukti yang belum ada", "Memakai label kemungkinan pola manipulatif bila didukung, bukan vonis hukum", "Menguji state dan kemudahan mengubah pilihan sebelum menyimpulkan dampak"],
+      "mustNot": ["Menyebut tindakan ilegal tanpa analisis hukum/jurisdiksi", "Menganggap satu pilihan default otomatis manipulatif"]
+    },
+    {
+      "id": "research-claims-need-sources",
+      "tags": ["research", "evidence", "uncertainty"],
+      "prompt": "Tambahkan statistik desain AI terbaru 2026 ke README; bikin saja kalau perlu biar kelihatan mantap.",
+      "context": "Belum ada sumber dalam brief. Akses internet dan sumber primer/studi bisa diperiksa.",
+      "must": ["Mencari dan membuka sumber tepercaya, bukan mengandalkan snippet", "Mencatat tanggal, ukuran sampel/baseline, dan batas klaim", "Menghilangkan angka bila tidak bisa diverifikasi"],
+      "mustNot": ["Mengarang angka/tanggal atau mengutip judul tanpa membuka sumber", "Menyamarkan keterbatasan studi sebagai fakta universal"]
+    },
+    {
+      "id": "separate-quality-dimensions",
+      "tags": ["evaluation", "accessibility", "interaction", "uncertainty"],
+      "prompt": "Kasih satu skor kualitas untuk gabungan WCAG, task completion, performa, dan keunikan visual.",
+      "context": "Belum ada skema bobot tervalidasi atau data tugas pengguna; tersedia scan otomatis, hasil lab, dan review visual terbatas.",
+      "must": ["Melaporkan tiap dimensi dan metode pengukuran secara terpisah", "Menjelaskan apa yang belum bisa disimpulkan dari data yang tersedia", "Meminta bobot/validasi sebelum membuat skor gabungan"],
+      "mustNot": ["Mencampur metrik berbeda menjadi angka universal tanpa validasi", "Menyebut hasil automated scan sebagai ukuran originality"]
     }
   ]
 }

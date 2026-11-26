@@ -152,6 +152,8 @@ test('icon-mix is project level', async () => {
   const mixed = lintFiles([path.join(dir, 'a.tsx'), path.join(dir, 'b.tsx')], DEFAULTS, dir);
   assert.deepEqual(mixed.map((f) => f.rule), ['icon-mix']);
   assert.match(mixed[0].message, /lucide, heroicons/);
+  assert.match(mixed[0].message, /can be intentional/i);
+  assert.doesNotMatch(mixed[0].message, /Pick one set/i);
   fs.writeFileSync(path.join(dir, 'b.tsx'), "import { X } from 'react-icons/lu';\n");
   assert.deepEqual(lintFiles([path.join(dir, 'a.tsx'), path.join(dir, 'b.tsx')], DEFAULTS, dir), []);
   fs.rmSync(dir, { recursive: true, force: true });
@@ -163,6 +165,17 @@ test('every rule id is covered by this suite', () => {
 
 test('all built-in heuristic rules default to advisory warnings', () => {
   assert.ok(RULES.every((rule) => rule.severity === 'warn'));
+});
+
+test('heuristic messages ask for contextual review instead of prescribing a visual recipe', () => {
+  const finding = (text, ext, rule) => lintText(text, ext, DEFAULTS).findings.find((item) => item.rule === rule)?.message;
+  const gradient = finding('.hero { background: linear-gradient(90deg, #7c3aed, #3b82f6); }', 'css', 'gradient-purple-blue');
+  const grid = finding('<div class="grid-cols-3"></div>', 'html', 'card-grid-3');
+  const copy = finding('<h1>Elevate your workflow</h1>', 'html', 'buzzword-copy');
+  assert.match(gradient, /not a defect/i);
+  assert.match(grid, /can be appropriate/i);
+  assert.match(copy, /review prompt, not a verdict/i);
+  assert.doesNotMatch([gradient, grid, copy].join(' '), /Fontshare|Uncut|asymmetric|bento|1px border|sharp \(2px\)|Left-align body copy|Use a tint/i);
 });
 
 test('Tailwind gradient detection stays within each class attribute', () => {

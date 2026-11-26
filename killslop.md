@@ -1,39 +1,24 @@
 <!-- killslop-disable-file buzzword-copy lorem-ipsum -->
-# kill-ai-slop: single-file filter
+# kill-ai-slop (always on)
 
-Paste this whole file into any chat or agent. No install needed. It is the short form of the skills in this repo.
+Make UI, copy, and front-end code feel specific to the product. Treat “AI slop” as a claim about observable defects, not a guess about who or what made the interface. A popular pattern is a review signal, not proof that the design is wrong.
 
-Apply these rules to every page, component, or screen you build or restyle. Do not change content structure. After the work, list each change with a one-line reason.
+Before work, load only the relevant skill from this plugin's `skills/` directory:
+- Core decisions: `skills/kill-ai-slop/SKILL.md`
+- Visual restyle: `skills/kill-ai-slop-ui/SKILL.md`
+- Copy: `skills/kill-ai-slop-copy/SKILL.md`
 
-## Replace these
+## Working rules
 
-| Slop | Use instead |
-|---|---|
-| Inter/Roboto for everything | One display face (Fontshare, Uncut) plus one neutral body face |
-| Purple-to-blue gradient | One solid color plus one accent, or monochrome plus one pop |
-| Emoji as icons | One icon set, stroke 1.5-2px |
-| Three equal feature cards | Asymmetric, editorial, or bento layout |
-| 40px blur shadows | 1px border; small shadow only on interactive elements |
-| Large rounded corners everywhere | One choice: sharp (2px) or pill (999px) |
-| "Elevate", "Seamless", "Unlock" | A concrete benefit with a number or name |
-| Title + subtitle + two buttons hero | Add one real visual: screenshot, data, or animation |
-| Center-aligned sections | Left-align, 65ch max width |
-| Random spacing | 4 8 12 16 24 32 48 64 96 128 |
-| `#000` and `#fff` | `#0B0B0F` and `#F7F6F3` |
+- Inspect product context, user tasks, brand, rendered UI, and relevant states before changing visual patterns.
+- Name concrete evidence and user impact. Keep a pattern when it serves the product and does not create a verified problem.
+- Prefer the smallest coherent change. Do not replace one generic recipe with another trend, invent product claims, or add assets that have no source.
+- Treat CLI lint output as advisory. Use a rule-specific suppression or configuration when a finding is intentional; do not edit solely to silence a warning.
+- Separate accessibility/conformance evidence, task/function checks, and visual or perceived-quality review. A clean automated scan does not prove WCAG conformance or usability.
+- Do not infer that an interface is AI-generated from its style or call it “slop” without evidence of a specific defect.
 
-## Checklist
+## Verify and report
 
-1. Type: one display face, one body face, body line-height at least 1.5, text at most 65ch.
-2. Color: one primary, one accent, one neutral scale of 5-9 steps, body contrast at least 4.5:1.
-3. Grid: 12 columns or one editorial column; section padding from the spacing scale.
-4. Hierarchy: one focus per section.
-5. Detail: borders, dividers, or noise.
-6. Motion: at most two transition kinds, one easing, 150-400ms.
-7. Copy: numbers, names, consequences instead of buzzwords.
-8. Remove one decorative element per section.
+Run `node cli/index.mjs lint <paths>` and, when relevant, `node cli/index.mjs contrast <fg> <bg>`. Check affected viewport and interaction states. State exactly what ran and what remains untested; never claim visual QA or tests passed without doing them.
 
-## Output
-
-Per section: `- <change> - <reason>`. End with the final tokens (fonts, colors, spacing scale, icon set, radius, motion). Say what you did not verify.
-
-Inspiration: https://www.fontshare.com, https://mobbin.com, https://supply.madebyoversight.com/sections, https://getshipframe.com. Full source list: `skills/kill-ai-slop-ui/references/sources.md`.
+User instructions override taste, while safety, accessibility, and product constraints still apply.

@@ -81,11 +81,11 @@ const fontDefault = {
   id: 'font-default',
   severity: 'warn',
   exts: STYLE,
-  summary: 'Inter or Roboto as the primary typeface.',
+  summary: 'Inter or Roboto as the primary typeface (review signal).',
   check({ text, pos }) {
     const out = [];
     const hit = (idx, name) =>
-      out.push({ ...pos(idx), message: `${name} as the primary font. Pick one display face (Fontshare, Uncut) plus one neutral body face.` });
+      out.push({ ...pos(idx), message: `${name} as the primary font. Review readability, brand fit, loading, and licensing; this pattern alone is not a defect.` });
     const first = (v) => v.split(',')[0].replace(/!important/i, '').trim().replace(/^['"]|['"]$/g, '');
     const isDefault = (n) => /^(inter|roboto)$/i.test(n);
 
@@ -118,10 +118,10 @@ const gradientPurpleBlue = {
   id: 'gradient-purple-blue',
   severity: 'warn',
   exts: STYLE,
-  summary: 'Purple to blue (or purple to pink) gradients.',
+  summary: 'Purple gradient with additional color (review signal).',
   check({ text, pos }) {
     const out = [];
-    const msg = 'Purple gradient. Use one solid color plus one accent, or monochrome plus one pop.';
+    const msg = 'Purple gradient with additional color. Review contrast, brand role, and hierarchy; this pairing alone is not a defect.';
 
     for (const m of text.matchAll(/(?:repeating-)?(?:linear|radial|conic)-gradient\(/g)) {
       const open = m.index + m[0].length - 1;
@@ -176,7 +176,7 @@ const emojiIcon = {
   id: 'emoji-icon',
   severity: 'warn',
   exts: MARKUP,
-  summary: 'Emoji used as icons in markup.',
+  summary: 'Emoji used as icons in markup (review signal).',
   check({ text, pos }) {
     const out = [];
     let lineStart = 0;
@@ -185,7 +185,7 @@ const emojiIcon = {
       for (const ch of line) {
         if (isPictograph(ch.codePointAt(0))) {
           const idx = lineStart + offset;
-          out.push({ ...pos(idx), message: `Emoji "${ch}" in markup. Use one icon set with a consistent 1.5-2px stroke.` });
+          out.push({ ...pos(idx), message: `Emoji "${ch}" in markup. Check its meaning, rendering, and accessible name; keep it when it fits the product.` });
           break;
         }
         offset += ch.length;
@@ -200,7 +200,7 @@ const cardGrid3 = {
   id: 'card-grid-3',
   severity: 'warn',
   exts: STYLE,
-  summary: 'Three equal columns, the default feature-card row.',
+  summary: 'Three equal columns (review signal).',
   check({ text, pos }) {
     const hits = [
       ...text.matchAll(/(?<![A-Za-z0-9_-])(?:[a-z0-9]+:)*grid-cols-3(?![\w-])/g),
@@ -208,7 +208,7 @@ const cardGrid3 = {
       ...text.matchAll(/grid-template-columns\s*:\s*(?:minmax\(0,\s*)?1fr\)?\s+(?:minmax\(0,\s*)?1fr\)?\s+(?:minmax\(0,\s*)?1fr\)?\s*[;}]/g),
     ].sort((a, b) => a.index - b.index);
     if (!hits.length) return [];
-    return [{ ...pos(hits[0].index), message: `${hits.length} three-equal-column grid${hits.length > 1 ? 's' : ''}. Try an asymmetric, editorial, or bento layout.` }];
+    return [{ ...pos(hits[0].index), message: `${hits.length} three-equal-column grid${hits.length > 1 ? 's' : ''}. Check content equivalence, responsive behavior, and scanability; equal columns can be appropriate.` }];
   },
 };
 
@@ -227,12 +227,12 @@ const shadowHeavy = {
   id: 'shadow-heavy',
   severity: 'warn',
   exts: STYLE,
-  summary: 'Large-blur drop shadows.',
+  summary: 'Large-blur drop shadows (review signal).',
   check({ text, pos, config }) {
     const out = [];
     const max = config.shadowBlurMax;
     const report = (idx, blur) =>
-      out.push({ ...pos(idx), message: `${fmt(blur)}px shadow blur (limit ${max}px). Use a 1px border; keep shadows for interactive elements.` });
+      out.push({ ...pos(idx), message: `${fmt(blur)}px shadow blur (project review threshold ${max}px). Check elevation, contrast, and rendering cost; intentional shadows can be appropriate.` });
 
     for (const m of text.matchAll(/(?<![\w-])(?:box|text)-shadow\s*:\s*([^;}]+)/g)) {
       const big = shadowBlurs(m[1]).find((b) => b >= max);
@@ -263,7 +263,7 @@ const radiusBlanket = {
   id: 'radius-blanket',
   severity: 'warn',
   exts: STYLE,
-  summary: 'Large rounded corners repeated everywhere.',
+  summary: 'Large corner radii repeated in a file (review signal).',
   check({ text, pos, config }) {
     const hits = [];
     for (const m of text.matchAll(/(?<![\w-])border-radius\s*:\s*(\d*\.?\d+)(px|rem)/g)) {
@@ -277,29 +277,29 @@ const radiusBlanket = {
     }
     if (hits.length < config.radiusRepeat) return [];
     hits.sort((a, b) => a - b);
-    return [{ ...pos(hits[0]), message: `${hits.length} corner radii of ${config.radiusMinPx}px or more. Pick one: sharp (2px) or pill (999px).` }];
+    return [{ ...pos(hits[0]), message: `${hits.length} corner radii of ${config.radiusMinPx}px or more. Review component consistency and affordance; the project's chosen radius can be intentional.` }];
   },
 };
 
 const buzzwords = [
-  [/\belevat(?:e|es|ed|ing)\s+(?:your|the|every|how)\b/i, 'name the concrete result instead'],
-  [/\bseamless(?:ly)?\b/i, 'say what connects to what'],
-  [/\bunlock(?:s|ed|ing)?\s+(?:(?:your|the|new|full|hidden|its|their)\s+)*(?:power|potential|insights?|value|growth|possibilities|productivity)\b/i, 'state the benefit with a number'],
-  [/\bsuper-?charg(?:e|es|ed|ing)\b/i, 'state the measured gain'],
-  [/\bgame-?chang(?:er|ing)\b/i, 'show what changed and by how much'],
-  [/\bcutting-edge\b/i, 'name the technique or version'],
-  [/\bnext-gen(?:eration)?\b/i, 'name what is new'],
-  [/\brevolution(?:ize|izes|ized|ise|ises|ised|ary)\b/i, 'describe the actual change'],
-  [/\bunleash(?:es|ed|ing)?\b/i, 'state the action'],
-  [/\bempower(?:s|ed|ing)?\s+(?:you|your|teams?|users?|businesses|everyone)\b/i, 'say what they can now do'],
-  [/\beffortless(?:ly)?\b/i, 'give the step count or time'],
-  [/\bleverag(?:e|es|ed|ing)\s+(?:the\s+power|your|our|ai|cutting)/i, 'use "use" and name the thing'],
-  [/\bdelv(?:e|es|ed|ing)\b/i, 'cut it'],
-  [/\bin today['’]s\s+(?:fast-paced|digital|ever-changing|modern)\b/i, 'start with the point'],
-  [/\bto the next level\b/i, 'state the target number'],
-  [/\b(?:world-class|best-in-class|state-of-the-art)\b/i, 'prove it with a figure or name'],
-  [/\bholistic\b/i, 'name the parts'],
-  [/\bsynerg(?:y|ies|ize)\b/i, 'cut it'],
+  [/\belevat(?:e|es|ed|ing)\s+(?:your|the|every|how)\b/i, 'Is the promised result concrete in this product context?'],
+  [/\bseamless(?:ly)?\b/i, 'Does the copy explain what connects or changes?'],
+  [/\bunlock(?:s|ed|ing)?\s+(?:(?:your|the|new|full|hidden|its|their)\s+)*(?:power|potential|insights?|value|growth|possibilities|productivity)\b/i, 'Is the promised value specific and supported?'],
+  [/\bsuper-?charg(?:e|es|ed|ing)\b/i, 'What measured change supports this claim, if applicable?'],
+  [/\bgame-?chang(?:er|ing)\b/i, 'What changed, and what evidence shows its effect?'],
+  [/\bcutting-edge\b/i, 'Which technique or version makes this description relevant?'],
+  [/\bnext-gen(?:eration)?\b/i, 'What capability is new for this product or user?'],
+  [/\brevolution(?:ize|izes|ized|ise|ises|ised|ary)\b/i, 'What specific change is being described?'],
+  [/\bunleash(?:es|ed|ing)?\b/i, 'What action does the product enable?'],
+  [/\bempower(?:s|ed|ing)?\s+(?:you|your|teams?|users?|businesses|everyone)\b/i, 'What can the named user do, specifically?'],
+  [/\beffortless(?:ly)?\b/i, 'Are the steps or effort clear, if relevant?'],
+  [/\bleverag(?:e|es|ed|ing)\s+(?:the\s+power|your|our|ai|cutting)/i, 'Which thing is being used, and for what?'],
+  [/\bdelv(?:e|es|ed|ing)\b/i, 'Does this phrase add useful information here?'],
+  [/\bin today['’]s\s+(?:fast-paced|digital|ever-changing|modern)\b/i, 'Is this useful context or generic setup?'],
+  [/\bto the next level\b/i, 'What target or outcome does this refer to?'],
+  [/\b(?:world-class|best-in-class|state-of-the-art)\b/i, 'What evidence supports this comparative claim?'],
+  [/\bholistic\b/i, 'Which parts or dimensions are included?'],
+  [/\bsynerg(?:y|ies|ize)\b/i, 'What specific work or benefit does the collaboration produce?'],
 ];
 
 const buzzwordCopy = {
@@ -314,7 +314,7 @@ const buzzwordCopy = {
       for (const [re, hint] of buzzwords) {
         const m = re.exec(line);
         if (m) {
-          out.push({ ...pos(lineStart + m.index), message: `Buzzword "${m[0].trim()}": ${hint}. Prefer a concrete benefit with a number or name.` });
+          out.push({ ...pos(lineStart + m.index), message: `Buzzword "${m[0].trim()}". ${hint} Treat this heuristic as a review prompt, not a verdict; keep precise, supported copy.` });
           break;
         }
       }
@@ -331,7 +331,7 @@ const loremIpsum = {
   summary: 'Placeholder lorem ipsum text.',
   check({ text, pos }) {
     const m = /lorem ipsum|dolor sit amet|consectetur adipiscing/i.exec(text);
-    return m ? [{ ...pos(m.index), message: 'Placeholder lorem ipsum. Write the real copy.' }] : [];
+    return m ? [{ ...pos(m.index), message: 'Possible lorem ipsum placeholder. Confirm it is not quoted or example content before replacing it.' }] : [];
   },
 };
 
@@ -342,7 +342,7 @@ const spacingOffScale = {
   id: 'spacing-off-scale',
   severity: 'warn',
   exts: STYLE,
-  summary: 'Spacing values outside the 4/8 scale.',
+  summary: 'Spacing values outside the configured scale (review signal).',
   check({ text, pos, config }) {
     const scale = new Set(config.spacingScale);
     const bad = []; // { idx, label }
@@ -372,7 +372,7 @@ const spacingOffScale = {
     if (!bad.length) return [];
     bad.sort((a, b) => a.idx - b.idx);
     const sample = [...new Set(bad.map((b) => b.label))].slice(0, 4).join(', ');
-    return [{ ...pos(bad[0].idx), message: `${bad.length} off-scale spacing value${bad.length > 1 ? 's' : ''} (${sample}). Scale: ${config.spacingScale.filter((n) => n).join(' ')}.` }];
+    return [{ ...pos(bad[0].idx), message: `${bad.length} spacing value${bad.length > 1 ? 's' : ''} outside the configured scale (${sample}; scale: ${config.spacingScale.filter((n) => n).join(' ')}). Review against component geometry and responsive needs; off-scale values are not automatically defects.` }];
   },
 };
 
@@ -380,14 +380,14 @@ const centerAll = {
   id: 'center-all',
   severity: 'warn',
   exts: STYLE,
-  summary: 'Center-aligned text on most sections.',
+  summary: 'Repeated center-aligned text (review signal).',
   check({ text, pos, config }) {
     const hits = [
       ...text.matchAll(/(?<![A-Za-z0-9_-])(?:[a-z0-9]+:)*text-center(?![\w-])/g),
       ...text.matchAll(/text-align\s*:\s*center/g),
     ].sort((a, b) => a.index - b.index);
     if (hits.length < config.centerRepeat) return [];
-    return [{ ...pos(hits[0].index), message: `${hits.length} center-aligned blocks. Left-align body copy and keep lines to 65ch.` }];
+    return [{ ...pos(hits[0].index), message: `${hits.length} center-aligned blocks. Check scanability and content width; centered alignment can fit short or promotional content.` }];
   },
 };
 
@@ -406,12 +406,12 @@ const motionDuration = {
   id: 'motion-duration',
   severity: 'warn',
   exts: STYLE,
-  summary: 'Transition or animation duration outside 150-400ms.',
+  summary: 'Transition or animation duration outside the configured range (review signal).',
   check({ text, pos, config }) {
     const out = [];
     const { motionMinMs: lo, motionMaxMs: hi } = config;
     const flag = (idx, ms) =>
-      out.push({ ...pos(idx), message: `${fmt(ms)}ms motion (allowed ${lo}-${hi}ms). Keep one easing and short durations.` });
+      out.push({ ...pos(idx), message: `${fmt(ms)}ms motion (configured range ${lo}-${hi}ms). Check interaction purpose and reduced-motion behavior; this threshold is project-specific.` });
     const bad = (ms) => ms > 0 && (ms < lo || ms > hi);
 
     for (const m of text.matchAll(/(?<![\w-])(transition|animation)(-duration)?\s*:\s*([^;}]+)/g)) {
@@ -434,10 +434,10 @@ const pureBlackWhite = {
   id: 'pure-black-white',
   severity: 'warn',
   exts: STYLE,
-  summary: 'Pure #000 backgrounds.',
+  summary: 'Pure #000 backgrounds (review signal).',
   check({ text, pos }) {
     const out = [];
-    const msg = 'Pure black background. Use a tint such as #0B0B0F, with #F7F6F3 instead of #fff.';
+    const msg = 'Pure black background. Review contrast, brand, and theme states; pure black can be intentional.';
     for (const m of text.matchAll(/(?<![\w-])background(?:-color)?\s*:\s*(?:#000(?:000)?|black)(?![\w-])/gi)) out.push({ ...pos(m.index), message: msg });
     for (const m of text.matchAll(/(?<![A-Za-z0-9_-])(?:[a-z0-9]+:)*bg-(?:black(?![/\w-])|\[#000(?:000)?\])/g)) out.push({ ...pos(m.index), message: msg });
     return out;

@@ -1,13 +1,18 @@
-<!-- killslop-disable-file buzzword-copy lorem-ipsum -->
-![Kill AI Slop](assets/banner.png)
+![Kill AI Slop — a toolkit for more product-specific UI, copy, and code](assets/banner.png)
 
 # Kill AI Slop
 
 [Indonesia](README.md) · [English](README.en.md)
 
-An agent toolkit for auditing, reworking, and building interfaces that actually fit the product—not another generic template with a fresh coat of paint. It includes one core skill, five specialist skills, plugin adapters, a lint/install CLI, and a quality harness.
+[![CI](https://github.com/dikaofcx/kill-ai-slop/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/dikaofcx/kill-ai-slop/actions/workflows/ci.yml)
 
-**The main idea:** popular patterns aren't a crime. Don't change things just to look different. Change what genuinely makes tasks harder, breaks consistency or accessibility, or erases the product's character. The linter only raises heuristic signals—it isn't a judge that can label a UI “AI slop,” and it doesn't replace a visual review. One warning isn't a verdict.
+An agent toolkit for finding and fixing generic UI, copy, and front-end decisions—with evidence, not design-trend bingo. It includes a core skill, five specialist skills, plugin adapters, a dependency-free CLI, and an evaluation harness.
+
+> A lint warning is a nudge to look closer, not a design-court verdict. Don't blow up a working brand just because it uses three cards or a purple gradient.
+
+![Kill AI Slop workflow: inspect context, collect evidence, make a small change, test, and review with a human](assets/quality-loop.png)
+
+*Diagram source: [Mermaid file](assets/quality-loop.mmd).*
 
 ## Quick start
 
@@ -21,14 +26,14 @@ node cli/index.mjs lint src --format text
 node cli/index.mjs contrast "#0B0B0F" "#F7F6F3"
 ```
 
-All built-in rules are **advisory warnings**. A lint finding is a nudge to take a closer look—not a catastrophe, and it won't fail the command. Want to use lint as a quality gate? Set `--strict`, `--max-warnings N`, or an explicit severity in `.killslop.json`.
+All built-in rules are **advisory warnings**. If lint flags something, inspect the context first—it is not a catastrophe, and the command still exits successfully. Want lint as a quality gate? Choose `--strict`, `--max-warnings N`, or an explicit severity in `.killslop.json`.
 
 ```sh
 node cli/index.mjs lint src --format github --max-warnings 10
 node cli/index.mjs lint src --strict
 ```
 
-See [GUIDE.md](GUIDE.md) for JSON output, GitHub Actions annotations, suppressions, configuration, and heuristic limitations.
+See [GUIDE.md](GUIDE.md) for JSON output, GitHub Actions annotations, suppressions, configuration, and heuristic limits.
 
 ## Install a skill
 
@@ -38,37 +43,54 @@ node cli/index.mjs init --agent claude
 node cli/index.mjs init --agent all --dry-run
 ```
 
-Or choose the skill's target folder yourself:
+Or choose a target folder yourself:
 
 ```sh
 node cli/index.mjs install --target ./.agents/skills --dry-run
 node cli/index.mjs install --target ./.agents/skills
 ```
 
-The installer checks for conflicts before writing, rejects symlinks in the target path, and won't silently overwrite a different file. Use `--replace` (or its `--force` alias) only when you choose to; the old file gets a uniquely named backup.
+The installer checks for conflicts, rejects symlinks in the target path, and will not silently overwrite a different file. Use `--replace` (alias `--force`) only when you choose to; the old file gets a uniquely named backup.
 
-## What's in the repo
+## What's inside
+
+![Quality harness layers: deterministic checks, functional/task tests, and human review produce an evidence-based decision](assets/harness-layers.png)
+
+*Diagram source: [Mermaid file](assets/harness-layers.mmd).*
 
 - **Core:** [SKILL.md](SKILL.md), procedures in [agents.md](agents.md), pattern guidance in [skills.md](skills.md), and visual principles in [soul.md](soul.md).
-- **Five specialist skills:** [UI](skills/kill-ai-slop-ui/SKILL.md), [copy](skills/kill-ai-slop-copy/SKILL.md), mobile, accessibility, and code implementation—all under [`skills/`](skills/).
-- **CLI:** linting, a Claude Code hook, agent installation, rule listing, and contrast checking—with no runtime dependencies.
-- **Harness:** CLI and rule tests, fixtures, evaluation cases, manifest and link checks, version and skill sync, plus cross-OS and cross-Node CI.
+- **Five specialist skills:** UI, copy, mobile, accessibility, and code implementation under [`skills/`](skills/).
+- **CLI:** linting, a Claude Code hook, agent installation, rule listing, and contrast checking.
+- **Harness:** CLI/rule tests, positive and negative fixtures, repository checks, and 16 manual behavior scenarios with tags and hard negatives.
 - **Adapters:** Agents, Claude Code, Cline, Codex, Cursor, Kimi, Oh My Pi, and Qoder.
-- **References and templates:** [UI source list](skills/kill-ai-slop-ui/references/sources.md), [CSS token template](skills/kill-ai-slop-ui/references/tokens-template.css), logo, and banner.
+- **References:** [UI sources](skills/kill-ai-slop-ui/references/sources.md), [CSS token template](skills/kill-ai-slop-ui/references/tokens-template.css), logo, and diagrams.
 
-The canonical skill sources are four root files. If you change them, run `npm run sync-skills`; don't edit generated copies directly.
+The canonical skill sources are four root files. After changing them, run `npm run sync-skills`; do not edit generated copies directly.
 
-## Claude Code hook
+## 2026 research: signals, not verdicts
 
-The plugin runs a `PostToolUse` hook on files that are written or edited. Lint findings add context for the agent, but they're advisory, and the hook always exits with status 0—heuristics shouldn't block the work. The protocol has been tested with simulated input, but not verified in a live Claude Code session.
+- A blind 2026 study with 92 participants found AI prototypes could score well on pragmatic qualities, while originality/novelty was more often neutral or negative. The sample was small and mostly computer-science students, so don't assume every AI UI is bad—or that every conventional pattern is slop. [SEMISH 2026 study](https://sol.sbc.org.br/index.php/semish/article/view/43563)
+- [W3C ACT Rules Format 1.1](https://www.w3.org/TR/act-rules-format/) (2026) calls for clear applicability, assumptions, and limits. When a machine cannot determine context, “needs review” is more honest than a forced verdict.
+- [NIST AI 200-3](https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.200-3.pdf) (September 2026) describes layered evaluation through model testing, red teaming, and user testing. That is why this harness separates lint signals, task/function checks, and human review instead of inventing one magic “slop score.”
+- The [Web Almanac 2025 Performance chapter](https://almanac.httparchive.org/en/2025/performance), published in January 2026 with primary data from July 2025, reports that 48% of mobile sites and 56% of desktop sites passed all three Core Web Vitals. That is population context, not a hard target for every product.
 
-## Plugins and publication status
+For accessibility, the stable target here is [WCAG 2.2](https://www.w3.org/TR/WCAG22/). W3C explains that conformance evaluation combines automated and human evaluation; a clean scan does not prove the whole product conforms or is easy to use. [W3C conformance guidance](https://www.w3.org/WAI/WCAG22/Understanding/conformance)
 
-Adapter manifests live in `.agents/plugins/`, `.claude-plugin/`, `.cline-plugin/`, `.codex-plugin/`, `.cursor-plugin/`, `.kimi-plugin/`, `.omp-plugin/`, and `.qoder-plugin/`. This repo hasn't been published to a marketplace or npm, and its integration paths haven't been tested in every agent client. The client and account running these commands need access to this repository.
+## A harness without a magic “slop score”
 
-### Example client commands
+- **Lint and repository checks** catch source patterns and regressions that can be tested deterministically. Lint findings stay advisory unless a project chooses its own quality gate.
+- **Task/function cases** check scope, state, keyboard, mobile, and whether changes preserve what must keep working.
+- **Human review** evaluates visual context, perception, and assistive-technology experience that cannot be decided from regexes or an initial screenshot.
 
-These commands are kept from the source package, but haven't been tested against the latest client versions. If one has gone stale, check the client's official docs and report the fix in an issue.
+`npm run check` validates structure and category coverage in [evals/cases.json](evals/cases.json); it does **not** run a model, axe, or user tests. Read the [evaluation protocol](evals/README.md) before claiming a case passed. Keep conformance/accessibility, task quality, performance, and visual perception separate; do not create one universal number without validated data and weights.
+
+## Hook and plugins
+
+The Claude Code `PostToolUse` hook adds findings as context and always exits with status 0—heuristics must not block the work. The hook protocol has been tested with simulated input, but not verified in a live Claude Code session.
+
+Adapter manifests live in `.agents/plugins/`, `.claude-plugin/`, `.cline-plugin/`, `.codex-plugin/`, `.cursor-plugin/`, `.kimi-plugin/`, `.omp-plugin/`, and `.qoder-plugin/`. This repo has not been published to a marketplace or npm, and its integration paths have not been tested on every agent-client version.
+
+The example client commands below are retained from the source package. Check each client's official docs if a command changes; the account running it needs access to this repo.
 
 ```text
 # Claude Code
@@ -92,15 +114,14 @@ cline plugin install https://github.com/dikaofcx/kill-ai-slop.git
 
 # Oh My Pi
 omp plugin marketplace add dikaofcx/kill-ai-slop
-omp plugin install kill-ai-slop@kill-ai-slop
 
 # Pi
 pi install git:github.com/dikaofcx/kill-ai-slop
 ```
 
-Want a local install without the marketplace flow? Run `node cli/index.mjs init --agent <name> --dry-run` first, then review the planned file changes before continuing.
+Want a local install without a marketplace flow? Run `node cli/index.mjs init --agent <name> --dry-run` first, then review the planned file changes.
 
-## Verification
+## Verification and contribution
 
 ```sh
 npm ci
@@ -109,6 +130,6 @@ npm --prefix cli test
 node cli/index.mjs lint cli/test/fixtures/slop.html --format json
 ```
 
-`npm run ci` checks generated-file sync, structure, manifests, links, and tests. Visual and accessibility reviews still need to happen separately in the target project—the linter doesn't render pages, so don't expect it to judge the actual interface.
+CI checks Ubuntu, Windows, and macOS with Node 20.12 and 22. Visual and accessibility reviews still need to happen in the target project—the linter does not render pages, so don't expect it to judge the interface from source code alone.
 
-Read [GUIDE.md](GUIDE.md) for command contracts and rule limitations. For contribution, security, and project plans, see [CONTRIBUTING.md](CONTRIBUTING.md), [SECURITY.md](SECURITY.md), and [ROADMAP.md](ROADMAP.md).
+Read [GUIDE.md](GUIDE.md) for command contracts, then [CONTRIBUTING.md](CONTRIBUTING.md), [SECURITY.md](SECURITY.md), [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md), and [ROADMAP.md](ROADMAP.md) for contribution and project plans.
