@@ -52,6 +52,7 @@
     "test": "node --test",
     "test:cli": "npm --prefix cli test",
     "test:browser": "playwright test -c evals/browser/playwright.config.mjs",
+    "test:browser:target": "node evals/browser/run.mjs",
     "ci": "npm run sync-skills:check && npm run check && npm test"
   },
   "devDependencies": {

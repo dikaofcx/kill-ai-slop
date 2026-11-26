@@ -5,6 +5,7 @@ const toggleSelector = process.env.EVAL_MENU_TOGGLE || '[data-eval-menu-toggle]'
 const panelSelector = process.env.EVAL_MENU_PANEL || '[data-eval-menu-panel]';
 
 test('configured menu opens by keyboard and pointer, then closes with Escape', async ({ page }) => {
+  test.skip(process.env.EVAL_SKIP_INTERACTIONS === '1', 'Menu interaction check disabled by --visual-only.');
   const response = await page.goto(route, { waitUntil: 'domcontentloaded' });
   expect(response?.ok(), `Expected ${route} to return a successful response`).toBeTruthy();
 

@@ -14,18 +14,21 @@ npm run test:browser
 
 The screenshots, traces, and other test output are written under `test-results/browser/`.
 
-## Point it at your own page
+## Run against a project URL
 
-Start your app yourself, then run the suite against a local or staging URL you control:
-
-```sh
-EVAL_BASE_URL=http://127.0.0.1:3000 EVAL_PATH=/ npm run test:browser
-```
-
-On PowerShell, set the environment variables with `$env:EVAL_BASE_URL` and `$env:EVAL_PATH` before running the command. The suite expects a menu button that starts collapsed, controls a hidden panel through `aria-controls`, changes `aria-expanded`, opens with Enter and pointer activation, and closes with Escape. Set selectors for your equivalent controls, or edit `interactions.spec.mjs` when the product uses a different interaction:
+Start your app yourself, then pass a local or staging URL you control. The URL may include a route; the runner uses it unless `--path` overrides it:
 
 ```sh
-EVAL_MENU_TOGGLE='button[aria-controls="site-menu"]' EVAL_MENU_PANEL='#site-menu' npm run test:browser
+npm run test:browser:target -- https://staging.example.com/about
 ```
 
-`EVAL_PATH` defaults to `/`. The test does not log in, submit forms, follow external links, or inspect other routes. Add only the routes and state transitions you intend to test. Review each viewport screenshot yourself; passing the overflow check does not establish that a layout is usable or visually successful. Add real project-specific tests and fixtures before treating this starter as a regression suite for your app.
+The target must be reachable from this machine and use HTTP or HTTPS. By default, the suite expects a menu button that starts collapsed, controls a hidden panel through `aria-controls`, changes `aria-expanded`, opens with Enter and pointer activation, and closes with Escape. Pass selectors for equivalent controls, or use visual-only mode when the target has no menu:
+
+```sh
+npm run test:browser:target -- --url http://127.0.0.1:3000 --path / --menu-toggle 'button[aria-controls="site-menu"]' --menu-panel '#site-menu'
+npm run test:browser:target -- https://staging.example.com --visual-only
+```
+
+To pass additional Playwright options, put them after a second `--`, for example `npm run test:browser:target -- https://staging.example.com --visual-only -- --headed`. The runner also accepts `EVAL_BASE_URL`, `EVAL_PATH`, `EVAL_MENU_TOGGLE`, and `EVAL_MENU_PANEL` environment variables. The older `EVAL_BASE_URL=... EVAL_PATH=/ npm run test:browser` form remains supported.
+
+The tests do not log in, submit forms, follow external links, or inspect other routes. Add only the routes and state transitions you intend to test. Review each viewport screenshot yourself; passing the overflow check does not establish that a layout is usable or visually successful. Add real project-specific tests and fixtures before treating this starter as a regression suite for your app.
