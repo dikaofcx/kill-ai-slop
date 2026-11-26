@@ -3,6 +3,7 @@
 Direktori ini menyimpan aset plugin dan dokumentasi yang memang membantu menjelaskan proyek.
 
 - `banner.png` dan `logo.png` adalah identitas visual repo.
+- `social-preview.png` adalah gambar Social preview GitHub; prompt dan catatan sumber ada di `social-preview-source.md`.
 - `quality-loop.mmd` / `quality-loop.png` menjelaskan alur audit berbasis konteks dan bukti.
 - `harness-layers.mmd` / `harness-layers.png` menjelaskan pemisahan pemeriksaan deterministik, fungsi, dan review manusia.
 
