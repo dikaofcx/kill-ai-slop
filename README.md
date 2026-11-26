@@ -62,11 +62,11 @@ Plugin menjalankan hook `PostToolUse` untuk file yang ditulis atau diedit. Lint 
 
 ## Plugin dan batas publikasi
 
-Manifest adapter ada di `.agents/plugins/`, `.claude-plugin/`, `.cline-plugin/`, `.codex-plugin/`, `.cursor-plugin/`, `.kimi-plugin/`, `.omp-plugin/`, dan `.qoder-plugin/`. Repo ini belum diterbitkan ke marketplace atau npm; jalur integrasi belum diuji pada setiap client agent. Akses ke repo privat tetap bergantung pada izin akun/client.
+Manifest adapter ada di `.agents/plugins/`, `.claude-plugin/`, `.cline-plugin/`, `.codex-plugin/`, `.cursor-plugin/`, `.kimi-plugin/`, `.omp-plugin/`, dan `.qoder-plugin/`. Repo ini belum diterbitkan ke marketplace atau npm; jalur integrasi belum diuji pada setiap client agent. Repository ini publik untuk dibaca; penggunaan fitur atau layanan client tertentu tetap mengikuti izin dan konfigurasi masing-masing.
 
 ### Contoh perintah client
 
-Perintah berikut dipertahankan dari paket sumber, tetapi belum diuji pada versi client terkini. Client dan akun yang menjalankannya harus memiliki akses ke repository privat ini. Jika perintah berubah, ikuti dokumentasi resmi client dan laporkan koreksi di issue.
+Perintah berikut dipertahankan dari paket sumber, tetapi belum diuji pada versi client terkini. Repository ini publik dan dapat diakses dari GitHub; ketersediaan plugin tetap bergantung pada dukungan serta konfigurasi client masing-masing. Jika perintah berubah, ikuti dokumentasi resmi client dan laporkan koreksi di issue.
 
 ```text
 # Claude Code
