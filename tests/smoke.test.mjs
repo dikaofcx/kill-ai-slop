@@ -13,8 +13,9 @@ const sourceRoot = path.join(root, 'skills');
 
 async function withTempDir(callback) {
   const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'kill-ai-slop-test-'));
-  try { await callback(dir); }
-  finally { await fs.rm(dir, { recursive: true, force: true }); }
+  const canonicalDir = await fs.realpath(dir);
+  try { await callback(canonicalDir); }
+  finally { await fs.rm(canonicalDir, { recursive: true, force: true }); }
 }
 
 test('list returns core plus focused skills with metadata', async () => {

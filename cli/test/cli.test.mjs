@@ -12,7 +12,7 @@ const cliRoot = path.resolve(here, '..');
 const bin = path.join(cliRoot, 'index.mjs');
 const fixtures = path.join(here, 'fixtures');
 const run = (args, opts = {}) => spawnSync(process.execPath, [bin, ...args], { encoding: 'utf8', ...opts });
-const tmp = () => fs.mkdtempSync(path.join(os.tmpdir(), 'ks-'));
+const tmp = () => fs.realpathSync.native(fs.mkdtempSync(path.join(os.tmpdir(), 'ks-')));
 const canSymlink = (dir, target, link) => {
   try { fs.symlinkSync(target, link, process.platform === 'win32' ? 'junction' : 'dir'); return true; }
   catch (error) { if (['EPERM', 'EACCES', 'ENOSYS', 'ENOTSUP'].includes(error.code)) return false; throw error; }
