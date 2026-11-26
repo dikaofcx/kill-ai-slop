@@ -1,11 +1,18 @@
-%%{init: {"theme":"base","themeVariables":{"background":"#0B0B0F","primaryColor":"#17171C","primaryTextColor":"#F7F6F3","primaryBorderColor":"#FF5A1F","lineColor":"#FF5A1F","secondaryColor":"#202027","tertiaryColor":"#111116","fontFamily":"ui-monospace, SFMono-Regular, Menlo, monospace"}}}%%
-flowchart TB
-  A["01 / Context<br/>product · task · constraints"] --> B["02 / Evidence<br/>rendered UI · code · states"]
-  B --> C["03 / Small change<br/>keep what already works"]
-  C --> D["04 / Checks<br/>flow · mobile · accessibility"]
-  D --> E["05 / Human review<br/>keep · fix · investigate"]
-  classDef step fill:#17171C,color:#F7F6F3,stroke:#FF5A1F,stroke-width:2px;
-  classDef final fill:#FF5A1F,color:#0B0B0F,stroke:#F7F6F3,stroke-width:2px;
-  class A,B,C,D step;
-  class E final;
-  linkStyle default stroke:#FF5A1F,stroke-width:2px;
+---
+title: "KILL AI SLOP / THE QUALITY LOOP"
+---
+%%{init: {"theme":"base","themeVariables":{"background":"#0B0B0F","primaryColor":"#131821","primaryTextColor":"#F6F5F0","primaryBorderColor":"#344052","lineColor":"#5CA9FF","secondaryColor":"#171C26","tertiaryColor":"#202938","fontFamily":"Arial, Helvetica, sans-serif","fontSize":"24px","edgeLabelBackground":"#0B0B0F"},"flowchart":{"htmlLabels":true,"curve":"basis","nodeSpacing":34,"rankSpacing":52,"padding":24,"useMaxWidth":true}}}%%
+flowchart LR
+  A(["<div style='font-family:Arial,Helvetica,sans-serif;width:220px;text-align:center;line-height:1.4'><b>01 / CONTEXT</b><br/>Product · task<br/>Constraints</div>"]) --> B(["<div style='font-family:Arial,Helvetica,sans-serif;width:220px;text-align:center;line-height:1.4'><b>02 / EVIDENCE</b><br/>Rendered UI · code<br/>States</div>"]) --> C(["<div style='font-family:Arial,Helvetica,sans-serif;width:270px;text-align:center;line-height:1.4'><b>03 / SMALL CHANGE</b><br/>Keep what works<br/>Change only what evidence supports</div>"]) --> D(["<div style='font-family:Arial,Helvetica,sans-serif;width:220px;text-align:center;line-height:1.4'><b>04 / CHECKS</b><br/>Flow · mobile<br/>Accessibility</div>"]) --> E(["<div style='font-family:Arial,Helvetica,sans-serif;width:220px;text-align:center;line-height:1.4'><b>05 / HUMAN REVIEW</b><br/>Keep · fix<br/>Investigate</div>"])
+  E -. "iterate when needed" .-> A
+  classDef context fill:#141922,color:#F6F5F0,stroke:#536174,stroke-width:1.5px;
+  classDef evidence fill:#11263A,color:#F6F5F0,stroke:#5CA9FF,stroke-width:2px;
+  classDef change fill:#261812,color:#FFF4EE,stroke:#FF5A1F,stroke-width:2px;
+  classDef checks fill:#141922,color:#F6F5F0,stroke:#5CA9FF,stroke-width:1.5px;
+  classDef review fill:#171C26,color:#F6F5F0,stroke:#D3D8E0,stroke-width:1.5px;
+  class A context;
+  class B evidence;
+  class C change;
+  class D checks;
+  class E review;
+  linkStyle default stroke:#5CA9FF,stroke-width:2px;
