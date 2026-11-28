@@ -10,8 +10,22 @@ An agent toolkit for finding and fixing generic UI, copy, and front-end decision
 
 > A lint warning is a nudge to look closer, not a design-court verdict. Don't blow up a working brand just because it uses three cards or a purple gradient.
 
-![Kill AI Slop workflow: inspect context, collect evidence, make a small change, test, and review with a human](assets/quality-loop.png)
+## Install the skill in under a minute
 
+Requires Node.js 20.12 or newer. Installing the skill does not require `npm ci`.
+
+```sh
+git clone --depth 1 https://github.com/dikaofcx/kill-ai-slop.git
+cd kill-ai-slop
+node cli/index.mjs init --agent claude --global --dry-run
+node cli/index.mjs init --agent claude --global
+```
+
+Replace `claude` with the client you use. Remove `--global` to install only in the current repository. Review the `--dry-run` output first; continue only if the target directory is right.
+
+If it genuinely helps, [star the repo on GitHub](https://github.com/dikaofcx/kill-ai-slop) so others can find it. Found a false positive or broken adapter? [Open an issue](https://github.com/dikaofcx/kill-ai-slop/issues) with a short example and the client name.
+
+![Kill AI Slop workflow: inspect context, collect evidence, make a small change, test, and review with a human](assets/quality-loop.png)
 *Diagram source: [Mermaid file](assets/quality-loop.mmd).*
 
 ## Quick start

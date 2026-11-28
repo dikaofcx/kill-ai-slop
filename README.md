@@ -10,6 +10,21 @@ Toolkit agent buat nemuin dan benerin keputusan UI, copy, dan front-end yang gen
 
 > Warning linter itu alarm kecil buat ngecek, bukan surat tilang desain. Jangan sok-sokan ngerombak brand yang udah bekerja cuma gara-gara ada tiga kartu atau gradien ungu.
 
+## Pasang skill dalam semenit
+
+Butuh Node.js 20.12 atau lebih baru. Instal skill tidak perlu `npm ci`.
+
+```sh
+git clone --depth 1 https://github.com/dikaofcx/kill-ai-slop.git
+cd kill-ai-slop
+node cli/index.mjs init --agent claude --global --dry-run
+node cli/index.mjs init --agent claude --global
+```
+
+Ganti `claude` dengan client yang kamu pakai. Hapus `--global` kalau pemasangannya cuma untuk repo ini. Cek hasil `--dry-run` dulu; lanjutkan hanya kalau folder targetnya benar.
+
+Kalau memang kepake, [kasih star di GitHub](https://github.com/dikaofcx/kill-ai-slop) biar orang lain lebih gampang nemuin. Ketemu false positive atau adapter rusak? [Buka issue](https://github.com/dikaofcx/kill-ai-slop/issues) dengan contoh singkat dan nama client-nya.
+
 ![Alur kerja Kill AI Slop: cek konteks, cari bukti, ubah seperlunya, tes, lalu review manusia](assets/quality-loop.png)
 
 *Diagram dibuat dari [source Mermaid](assets/quality-loop.mmd).*
